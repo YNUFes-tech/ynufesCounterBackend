@@ -1,0 +1,1 @@
+dispatch:  - url: "*/api/*"    service: go-backend  - url: "*/*"    service: default
