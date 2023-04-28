@@ -1,23 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-
-	"google.golang.org/appengine"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	http.HandleFunc("/", handleIndex)
-	http.HandleFunc("/api/hello", handleHello)
+	engine := gin.New()
 
-	appengine.Main()
+	engine.Handle("GET", "/api/hello", handleHello)
+
+	if err := engine.Run(":8080"); err != nil {
+		return
+	}
 }
 
-func handleIndex(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Welcome to the main page!")
-}
-
-func handleHello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, from the API!")
+func handleHello(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "Hello, world!",
+	})
 }
