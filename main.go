@@ -2,12 +2,28 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"ynufesCounterBackend/handler"
+	"ynufesCounterBackend/pkg/firebase"
 )
 
 func main() {
 	engine := gin.New()
 
-	engine.Handle("GET", "/hello", handleHello)
+	// endpoints that requires authentication
+	apiV1 := engine.Group("/api/v1")
+	apiV1.Handle("GET", "/hello", handleHello)
+
+	//lineAuthHandler := handler.NewLineAuthHandler()
+	//apiV1.Handle("GET", "/line/auth/callback", lineAuthHandler.Handle)
+
+	//authMiddleware := middleware.NewAuthMiddleware()
+	//authRg := apiV1.Use(authMiddleware.Handle)
+
+	fb := firebase.New()
+
+	countHandler := handler.NewCountHandler(fb)
+	apiV1.Handle("POST", "/count/entry", countHandler.HandleEntry)
+	apiV1.Handle("POST", "/count/exit", countHandler.HandleExit)
 
 	if err := engine.Run(":8080"); err != nil {
 		return
