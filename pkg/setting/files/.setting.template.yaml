@@ -1,0 +1,4 @@
+infrastructure:
+    firebase:
+        database_url: "https://ynufes-mypage.firebaseio.com"
+        json_credential_file: "ynufes-mypage-xxxxxxxxxxxx.json"
