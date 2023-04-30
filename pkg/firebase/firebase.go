@@ -10,7 +10,7 @@ import (
 )
 
 type Firebase struct {
-	*db.Client
+	client *db.Client
 }
 
 func New() Firebase {
@@ -39,6 +39,10 @@ func New() Firebase {
 		log.Fatalln("Error initializing database client:", err)
 	}
 	return Firebase{
-		Client: c,
+		client: c,
 	}
+}
+
+func (f Firebase) Client(path string) *db.Ref {
+	return f.client.NewRef(path)
 }
