@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"ynufesCounterBackend/handler"
 	"ynufesCounterBackend/pkg/firebase"
@@ -20,7 +21,10 @@ func main() {
 	//authRg := apiV1.Use(authMiddleware.Handle)
 
 	fb := firebase.New()
-
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AddAllowMethods("OPTIONS")
+	apiV1.Use(cors.New(corsConfig))
 	countHandler := handler.NewCountHandler(fb)
 	apiV1.Handle("POST", "/count/entry", countHandler.HandleEntry)
 	apiV1.Handle("POST", "/count/exit", countHandler.HandleExit)
