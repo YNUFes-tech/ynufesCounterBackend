@@ -1,1 +1,3 @@
 .idea
+deploy-settings.yaml
+gcloud-credential.json
