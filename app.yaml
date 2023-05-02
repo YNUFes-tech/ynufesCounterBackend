@@ -1,1 +1,1 @@
-service: go-backendruntime: go120handlers:  - url: /.*    script: auto    secure: always
+service: go-backendruntime: go120handlers:  - url: /.*    script: auto    secure: alwaysenv_variables:    ENV_LOCATION: "deploy-settings.yaml"
