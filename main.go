@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"ynufesCounterBackend/handler"
+	handler "ynufesCounterBackend/handler/v1"
 	"ynufesCounterBackend/pkg/firebase"
 )
 
