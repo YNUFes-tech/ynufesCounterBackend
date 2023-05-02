@@ -14,6 +14,7 @@ var (
 type (
 	Setting struct {
 		Infrastructure Infrastructure `yaml:"infrastructure"`
+		Service        Service        `yaml:"service"`
 	}
 )
 
