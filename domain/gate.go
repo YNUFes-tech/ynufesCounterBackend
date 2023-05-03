@@ -1,5 +1,7 @@
 package domain
 
+import "errors"
+
 type Gate int
 
 const (
@@ -10,3 +12,13 @@ const (
 	SouthCommon Gate = 5
 	EastCommon  Gate = 6
 )
+
+var ErrInvalidGate = errors.New("invalid gate")
+
+func NewGate(i int) (Gate, error) {
+	// validate
+	if i < 1 || 6 < i {
+		return 0, ErrInvalidGate
+	}
+	return Gate(i), nil
+}
