@@ -6,6 +6,7 @@ require (
 	firebase.google.com/go/v4 v4.11.0
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.0
+	github.com/go-resty/resty/v2 v2.7.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/joho/godotenv v1.5.1
 	google.golang.org/api v0.120.0
