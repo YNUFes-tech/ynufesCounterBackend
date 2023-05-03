@@ -3,14 +3,14 @@ package v1
 import (
 	"firebase.google.com/go/v4/db"
 	"github.com/gin-gonic/gin"
-	"math/rand"
-	"time"
 	"ynufesCounterBackend/pkg/firebase"
+	"ynufesCounterBackend/util"
 )
 
 const (
-	FBCountPath = "stat/count"
-	trialTimes  = 5
+	FBCountPath   = "stat/count"
+	trialTimes    = 5
+	trialInterval = 1000
 )
 
 type CountHandler struct {
@@ -23,20 +23,8 @@ func NewCountHandler(db firebase.Firebase) *CountHandler {
 	}
 }
 
-func (h CountHandler) retryFunc(process func() error) (times int, err error) {
-	for trialTimes > times {
-		times++
-		if err = process(); err == nil {
-			return times, nil
-		}
-		// sleep for random time
-		time.Sleep(time.Duration(rand.Intn(2000)) * time.Millisecond)
-	}
-	return times, err
-}
-
 func (h CountHandler) HandleEntry(c *gin.Context) {
-	times, err := h.retryFunc(func() error {
+	times, err := util.RetryFunc(trialTimes, trialInterval, func() error {
 		return h.countRef.Transaction(c, func(tx db.TransactionNode) (interface{}, error) {
 			var count int
 			if err := tx.Unmarshal(&count); err != nil {
@@ -60,7 +48,7 @@ func (h CountHandler) HandleEntry(c *gin.Context) {
 }
 
 func (h CountHandler) HandleExit(c *gin.Context) {
-	times, err := h.retryFunc(func() error {
+	times, err := util.RetryFunc(trialTimes, trialInterval, func() error {
 		return h.countRef.Transaction(c, func(tx db.TransactionNode) (interface{}, error) {
 			var count int
 			if err := tx.Unmarshal(&count); err != nil {
