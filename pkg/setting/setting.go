@@ -15,6 +15,7 @@ type (
 	Setting struct {
 		Infrastructure Infrastructure `yaml:"infrastructure"`
 		Service        Service        `yaml:"service"`
+		ThirdParty     ThirdParty     `yaml:"third_party"`
 	}
 )
 
